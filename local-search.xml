@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>DC知识点总结</title>
+    <link href="/2021/10/20/DC_summary/"/>
+    <url>/2021/10/20/DC_summary/</url>
+    
+    <content type="html"><![CDATA[<h3 id="编写脚本用于处理综合报告信息"><a href="#编写脚本用于处理综合报告信息" class="headerlink" title="编写脚本用于处理综合报告信息"></a>编写脚本用于处理综合报告信息</h3><p>  在分析综合报告的时候，用户往往只关注部分重要的的报告信息。而一次综合流程输出的报告数目比较多，在阅读和分析过程往往会令人无从下手，因此设计一个脚本文件，当用户在<code>./report</code>文件下执行脚本后，自动生成一个报告总结，汇总需要用户关注的报告信息。</p><h5 id="Tcl脚本思路"><a href="#Tcl脚本思路" class="headerlink" title="Tcl脚本思路"></a>Tcl脚本思路</h5><p>  伪代码的书写思路大致如下所示，具体的代码则需要更加细致的补充</p><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs tcl"><span class="hljs-comment"># 获取当前目录绝对位置和目录下的文件名</span><br>filepath = <span class="hljs-keyword">pwd</span><br><span class="hljs-keyword">filename</span> = [ <span class="hljs-keyword">eval</span> ls ]<br><span class="hljs-comment"># 对文件名进行处理</span><br><span class="hljs-keyword">split</span> <span class="hljs-variable">$filename</span> <span class="hljs-string">&quot;\n&quot;</span><br><br><span class="hljs-comment"># 遍历文件名</span><br><span class="hljs-keyword">foreach</span> line <span class="hljs-variable">$filename</span> &#123;<br><span class="hljs-comment"># 判断文件名，正则匹配，选择想要的文件</span><br><span class="hljs-keyword">if</span> &#123;<span class="hljs-keyword">string</span> first <span class="hljs-variable">$line</span>&#125; &#123;<br><span class="hljs-keyword">file</span> copy <span class="hljs-variable">$line</span> <span class="hljs-variable">$filepath</span>/report_review<br>&#125; elseif &#123;<br><span class="hljs-comment"># 继续进行其他字符串匹配</span><br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure><img src="/2021/10/20/DC_summary/dc_flow.png" alt="DC Flow Summary" style="zoom:33%;"><p>&emsp; 上述图片是实际项目过程中的命令执行流程，在实际的工作环境中，每一步骤都会处理上一步骤的环境配置，因此每一次都会加载上一次的信息，这是一个重复的过程，因此在脚本环境中，会出现重复读入输入，并利用同一个命令输出每一步骤的报告。</p><p>&emsp; 在设计中，实际的效率并不高，特别是当设计模块已经到达千万，甚至上亿门之后，综合要求更多的软件运行时间，如果某一步骤运行出错，会导致下一步骤无法运行，这对综合人员来说也是一种压力，特别是在后端进度实际就是为了给前端节省时间的情况之下。</p><p>&emsp; 在上图的内容中，综合过程可以概括为compiler+elaborate,之后的insert_dft 属于DFT工程师的设计内容在实际的过程中，综合工程师可能在了解原理的情况下进行dft的插入</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>DC综合工具使用</tag>
+      
+      <tag>TCL脚本语言</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2021/10/20/hello-world/"/>
+    <url>/2021/10/20/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p><p><img src="/2021/10/20/hello-world/image-20211020164734203.png" alt="image-20211020164734203"></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
