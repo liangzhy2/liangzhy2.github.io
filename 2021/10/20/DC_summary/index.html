@@ -1,237 +1,561 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  <title>DC知识点总结 | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="好好学习，天天向上">
+  <meta name="author" content="Liang Zhy">
+  <meta name="keywords" content="">
   <meta name="description" content="编写脚本用于处理综合报告信息  在分析综合报告的时候，用户往往只关注部分重要的的报告信息。而一次综合流程输出的报告数目比较多，在阅读和分析过程往往会令人无从下手，因此设计一个脚本文件，当用户在.&#x2F;report文件下执行脚本后，自动生成一个报告总结，汇总需要用户关注的报告信息。 Tcl脚本思路  伪代码的书写思路大致如下所示，具体的代码则需要更加细致的补充 123456789101112131415">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DC知识点总结">
 <meta property="og:url" content="http://example.com/2021/10/20/DC_summary/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="LiangZhy">
 <meta property="og:description" content="编写脚本用于处理综合报告信息  在分析综合报告的时候，用户往往只关注部分重要的的报告信息。而一次综合流程输出的报告数目比较多，在阅读和分析过程往往会令人无从下手，因此设计一个脚本文件，当用户在.&#x2F;report文件下执行脚本后，自动生成一个报告总结，汇总需要用户关注的报告信息。 Tcl脚本思路  伪代码的书写思路大致如下所示，具体的代码则需要更加细致的补充 123456789101112131415">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2021/10/20/DC_summary/dc_flow.png">
+<meta property="og:image" content="http://example.com/2021/10/20/DC_summary/image-20211021172150689.png">
+<meta property="og:image" content="http://example.com/2021/10/20/DC_summary/image-20211022111016582.png">
+<meta property="og:image" content="http://example.com/2021/10/20/DC_summary/image-20211023150756692.png">
+<meta property="og:image" content="http://example.com/2021/10/20/DC_summary/image-20211023152026364.png">
+<meta property="og:image" content="http://example.com/2021/10/20/DC_summary/image-20211023152521250.png">
 <meta property="article:published_time" content="2021-10-20T06:44:21.000Z">
-<meta property="article:modified_time" content="2021-10-20T09:13:10.650Z">
+<meta property="article:modified_time" content="2021-10-23T07:25:34.868Z">
 <meta property="article:author" content="Liang Zhy">
 <meta property="article:tag" content="DC综合工具使用">
 <meta property="article:tag" content="TCL脚本语言">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2021/10/20/DC_summary/dc_flow.png">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  <title>DC知识点总结 - LiangZhy</title>
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
   
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
 
   
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="port-DC_summary" class="h-entry article article-type-port" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/10/20/DC_summary/" class="article-date">
-  <time class="dt-published" datetime="2021-10-20T06:44:21.000Z" itemprop="datePublished">2021-10-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      DC知识点总结
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="编写脚本用于处理综合报告信息"><a href="#编写脚本用于处理综合报告信息" class="headerlink" title="编写脚本用于处理综合报告信息"></a>编写脚本用于处理综合报告信息</h3><p>  在分析综合报告的时候，用户往往只关注部分重要的的报告信息。而一次综合流程输出的报告数目比较多，在阅读和分析过程往往会令人无从下手，因此设计一个脚本文件，当用户在<code>./report</code>文件下执行脚本后，自动生成一个报告总结，汇总需要用户关注的报告信息。</p>
-<h5 id="Tcl脚本思路"><a href="#Tcl脚本思路" class="headerlink" title="Tcl脚本思路"></a>Tcl脚本思路</h5><p>  伪代码的书写思路大致如下所示，具体的代码则需要更加细致的补充</p>
-<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs tcl"><span class="hljs-comment"># 获取当前目录绝对位置和目录下的文件名</span><br>filepath = <span class="hljs-keyword">pwd</span><br><span class="hljs-keyword">filename</span> = [ <span class="hljs-keyword">eval</span> ls ]<br><span class="hljs-comment"># 对文件名进行处理</span><br><span class="hljs-keyword">split</span> <span class="hljs-variable">$filename</span> <span class="hljs-string">&quot;\n&quot;</span><br><br><span class="hljs-comment"># 遍历文件名</span><br><span class="hljs-keyword">foreach</span> line <span class="hljs-variable">$filename</span> &#123;<br><span class="hljs-comment">	# 判断文件名，正则匹配，选择想要的文件</span><br>	<span class="hljs-keyword">if</span> &#123;<span class="hljs-keyword">string</span> first <span class="hljs-variable">$line</span>&#125; &#123;<br>		<span class="hljs-keyword">file</span> copy <span class="hljs-variable">$line</span> <span class="hljs-variable">$filepath</span>/report_review<br>	&#125; elseif &#123;<br><span class="hljs-comment">		# 继续进行其他字符串匹配</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<img src="/2021/10/20/DC_summary/dc_flow.png" alt="DC Flow Summary" style="zoom:33%;">
-
-<p>&emsp; 上述图片是实际项目过程中的命令执行流程，在实际的工作环境中，每一步骤都会处理上一步骤的环境配置，因此每一次都会加载上一次的信息，这是一个重复的过程，因此在脚本环境中，会出现重复读入输入，并利用同一个命令输出每一步骤的报告。</p>
-<p>&emsp; 在设计中，实际的效率并不高，特别是当设计模块已经到达千万，甚至上亿门之后，综合要求更多的软件运行时间，如果某一步骤运行出错，会导致下一步骤无法运行，这对综合人员来说也是一种压力，特别是在后端进度实际就是为了给前端节省时间的情况之下。</p>
-<p>&emsp; 在上图的内容中，综合过程可以概括为compiler+elaborate,之后的insert_dft 属于DFT工程师的设计内容在实际的过程中，综合工程师可能在了解原理的情况下进行dft的插入</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/10/20/DC_summary/" data-id="ckv09ghld0002cgu4f4qjdypl" data-title="DC知识点总结" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DC%E7%BB%BC%E5%90%88%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">DC综合工具使用</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCL%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/" rel="tag">TCL脚本语言</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2021/10/20/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
     </a>
-  
-</nav>
 
-  
-</article>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-
-</section>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DC%E7%BB%BC%E5%90%88%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" rel="tag">DC综合工具使用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCL%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/" rel="tag">TCL脚本语言</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/DC%E7%BB%BC%E5%90%88%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/" style="font-size: 10px;">DC综合工具使用</a> <a href="/tags/TCL%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">TCL脚本语言</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
         
-          <li>
-            <a href="/2021/10/20/DC_summary/">DC知识点总结</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
           </li>
         
-          <li>
-            <a href="/2021/10/20/hello-world/">Hello World</a>
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
     </div>
   </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 Liang Zhy<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
 </nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="DC知识点总结">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-20 14:44" pubdate>
+        October 20, 2021 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">DC知识点总结</h1>
+            
+            <div class="markdown-body">
+              <h3 id="编写脚本用于处理综合报告信息"><a href="#编写脚本用于处理综合报告信息" class="headerlink" title="编写脚本用于处理综合报告信息"></a>编写脚本用于处理综合报告信息</h3><p>  在分析综合报告的时候，用户往往只关注部分重要的的报告信息。而一次综合流程输出的报告数目比较多，在阅读和分析过程往往会令人无从下手，因此设计一个脚本文件，当用户在<code>./report</code>文件下执行脚本后，自动生成一个报告总结，汇总需要用户关注的报告信息。</p>
+<h5 id="Tcl脚本思路"><a href="#Tcl脚本思路" class="headerlink" title="Tcl脚本思路"></a>Tcl脚本思路</h5><p>  伪代码的书写思路大致如下所示，具体的代码则需要更加细致的补充</p>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs tcl"><span class="hljs-comment"># 获取当前目录绝对位置和目录下的文件名</span><br>filepath = <span class="hljs-keyword">pwd</span><br><span class="hljs-keyword">filename</span> = [ <span class="hljs-keyword">eval</span> ls ]<br><span class="hljs-comment"># 对文件名进行处理</span><br><span class="hljs-keyword">split</span> <span class="hljs-variable">$filename</span> <span class="hljs-string">&quot;\n&quot;</span><br><br><span class="hljs-comment"># 遍历文件名</span><br><span class="hljs-keyword">foreach</span> line <span class="hljs-variable">$filename</span> &#123;<br><span class="hljs-comment">	# 判断文件名，正则匹配，选择想要的文件</span><br>	<span class="hljs-keyword">if</span> &#123;<span class="hljs-keyword">string</span> first <span class="hljs-variable">$line</span>&#125; &#123;<br>		<span class="hljs-keyword">file</span> copy <span class="hljs-variable">$line</span> <span class="hljs-variable">$filepath</span>/report_review<br>	&#125; elseif &#123;<br><span class="hljs-comment">		# 继续进行其他字符串匹配</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<img src="/2021/10/20/DC_summary/dc_flow.png" srcset="/img/loading.gif" lazyload alt="DC Flow Summary" style="zoom:33%;">
+
+<p>&emsp; 上述图片是实际项目过程中的命令执行流程，在实际的工作环境中，每一步骤都会处理上一步骤的环境配置，因此每一次都会加载上一次的信息，这是一个重复的过程，因此在脚本环境中，会出现重复读入输入，并利用同一个命令输出每一步骤的报告。</p>
+<p>&emsp; 在设计中，实际的效率并不高，特别是当设计模块已经到达千万，甚至上亿门之后，综合要求更多的软件运行时间，如果某一步骤运行出错，会导致下一步骤无法运行，这对综合人员来说也是一种压力，特别是在后端进度实际就是为了给前端节省时间的情况之下。</p>
+<p>&emsp; 在上图的内容中，综合过程可以概括为compiler+elaborate,之后的insert_dft 属于DFT工程师的设计内容在实际的过程中，综合工程师可能在了解原理的情况下进行dft的插入</p>
+<p>DC优化设计方式：给指定功能提供最小、最快的逻辑实现。<br>DC的过程：综合HDL，将其转换为optimized, technology-dependent, gate-level design. 支持flat 和 hierarchical design, 支持组合和时序设计，主要进行面积，时序，功耗优化。</p>
+<h3 id="DC工具简介"><a href="#DC工具简介" class="headerlink" title="DC工具简介"></a>DC工具简介</h3><p>DC Expert keyword: Wire load Mode, WLM<br>DC Ultra keyword: concurrent(并发) advanced optimization,high performance design, Topographical technology-可以用来精确估计设计的物理信息<br>DC Graphical keyword: optimize MMMC design, reduce congestion, improve runtime in ICC, floorplan</p>
+<h4 id="DC-Expert-Feature"><a href="#DC-Expert-Feature" class="headerlink" title="DC Expert Feature"></a>DC Expert Feature</h4><ol>
+<li>层次化编译(bottom-up or top-down)</li>
+<li>全编译，增量编译</li>
+<li>为复杂的 Flip-Flop 和latch 做时序优化</li>
+<li>基于latch设计的时序补偿</li>
+<li>时序分析</li>
+<li>命令行及GUI</li>
+</ol>
+<h4 id="DC-Ultra-Feature-相比-DCE-增加的"><a href="#DC-Ultra-Feature-相比-DCE-增加的" class="headerlink" title="DC Ultra Feature(相比 DCE 增加的)"></a>DC Ultra Feature(相比 DCE 增加的)</h4><ol>
+<li>更快的运行时间</li>
+<li>先进的算法优化</li>
+<li>集成datapath partition and synthesis</li>
+<li>先进时序分析</li>
+<li>先进的延时优化算法</li>
+<li>先进的<code>leakage power</code>优化</li>
+<li>register retiming(工具通过在组合逻辑间移动register优化时序)</li>
+</ol>
+<h5 id="DC-Ultra-in-Topographical-technology"><a href="#DC-Ultra-in-Topographical-technology" class="headerlink" title="DC Ultra in Topographical technology"></a>DC Ultra in Topographical technology</h5><ol>
+<li>多电压多供电设计</li>
+<li>Concurrent MMMC优化，减少迭代次数提高，获得结果的时间效率</li>
+<li>和ICC共享 Placement以及优化技术，使用更准确的数据处理，提高设计质量</li>
+</ol>
+<h4 id="DC-Graphical-Feature"><a href="#DC-Graphical-Feature" class="headerlink" title="DC Graphical Feature"></a>DC Graphical Feature</h4><ol>
+<li>优化MMMC design</li>
+<li>减少Routing Congestion</li>
+<li>提高area, timing与ICC的联系</li>
+<li>提高在ICC中的运行时间与可布线性</li>
+<li>创建和修改Floorplan (using Floorplan Exploration)</li>
+<li>Physical guidence technology，包含enhanced placement,提高QoR等能力</li>
+</ol>
+<h4 id="DC-in-Design-Flow"><a href="#DC-in-Design-Flow" class="headerlink" title="DC in Design Flow"></a>DC in Design Flow</h4><p><img src="/2021/10/20/DC_summary/image-20211021172150689.png" srcset="/img/loading.gif" lazyload alt="DC in Design Flow"></p>
+<h4 id="DC术语"><a href="#DC术语" class="headerlink" title="DC术语"></a>DC术语</h4><p>尽管下面术语有轻微的不同，在DC manual 中可以看作相等的含义。</p>
+<p>Synthesis: 指为RTL生成 gate-level netlist的过程，过程包含read design 和 optimize design<br>Optimization: 是Synthesis中的一步操作，指完成(选择)满足设计约束的library cell 集合<br>Compile: 是Design Compiler 的过程，用来执行synthesis 和 optimization</p>
+<h5 id="Design"><a href="#Design" class="headerlink" title="Design"></a>Design</h5><hr>
+<p>Design:实现逻辑功能的电路描述。<br>    Logical-level Design: 使用 Boolen equation 实现<br>    Gate-level Design: 使用 Interconnect cell 实现</p>
+<p>Flat Design: 不包含子设计，只有一个结构层次，且只包含library celll<br>Hierarchical Design: 包含子设计，子设计也可以包含子设计，创建多个层次结构</p>
+<p>Reference: 一个用来搭建更大电路的library component or design<br>Leaf cell: 只包含一个设计的unique instance<br>Port: 端口拥有方向，input, output, inout</p>
+<h3 id="DC支持的Flow类型"><a href="#DC支持的Flow类型" class="headerlink" title="DC支持的Flow类型"></a>DC支持的Flow类型</h3><p>Full compile: DC map、optimize整个设计，产生一个gate-level netlist，并且如果设计中存在已经mapped cell也会被 unmapped,该Flow不会保护已经存在的netlist结构。</p>
+<p>Incremental compile: DC 可以通过改善设计结构提高design QoR,它是在init compile的基础上进行mapping, 主要集中在未满足约束的area设计上，已经存在的netlist会被保护起来，mapping 优化只有在能够改善设计的基础上被采用</p>
+<h5 id="编译策略"><a href="#编译策略" class="headerlink" title="编译策略"></a>编译策略</h5><p>Top-down: top-level design 和子设计共同编译.<br>Bottom-up: 子设计分开编译，从底层一直变异到top-level.<br>Mixed: 小模块使用Top-down,大模块使用Bottom-up.</p>
+<h3 id="Optimization"><a href="#Optimization" class="headerlink" title="Optimization"></a>Optimization</h3><p>基于约束与变量进行优化，将设计转换成library cell，其理念是如果设计能够减少功耗且不增加其他设计模块的功耗，则可以采用该cell，完成优化</p>
+<h4 id="Design-Compiler-Mode"><a href="#Design-Compiler-Mode" class="headerlink" title="Design Compiler Mode"></a>Design Compiler Mode</h4><p>Wire Load Mode:线性负载模型，延时计算使用估计，精度较差</p>
+<p>Topographical Mode:拓扑模型，延时计算精确性更高</p>
+<p>​        Multimode: 多corner，多mode</p>
+<p>​        UPF Mode: UPF低功耗</p>
+<p>WLM:在默认情况下，<code>dc_shell</code>会启用WLM, 使用线性负载进行时序预估，此时<code>compile</code> 和<code>compile_ultra</code>都是在WLM下进行synthesis过程</p>
+<p>Topographical: 需要命令<code>dc_sell -topographical_mode</code>启用，此时<code>compile_ultra</code>和<code>compile_ulra -spg</code>都工作在拓扑模式，且<code>-spg</code>工作在DC Graphical模式，会使用到后端<code>Floorplan</code>的物理信息。</p>
+<h5 id="Setup-File"><a href="#Setup-File" class="headerlink" title="Setup File"></a>Setup File</h5><p>DC 从三个文件位置读取<code>.synopsys_dc.setup</code>文件</p>
+<figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nsis">The Synopsys Root <span class="hljs-literal">directory</span><br>Your home <span class="hljs-literal">directory</span><br>The <span class="hljs-literal">current</span> working <span class="hljs-literal">directory</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="Name-Rules"><a href="#Name-Rules" class="headerlink" title="Name Rules"></a>Name Rules</h5><p>一些制造厂可能会自己修改命令规则，比如将Design Ware中的<em>cell</em> 转换成<em>U</em> , 将 <em>reset</em>转换成<em>RET</em>等</p>
+<p>用户也可以通过命令修改命名规则，<code>define_name_rules</code> 和 <code>change_name</code>可以用来改变port 和 net的名称</p>
+<h5 id="dc-shell执行的程序过程"><a href="#dc-shell执行的程序过程" class="headerlink" title="dc_shell执行的程序过程"></a><code>dc_shell</code>执行的程序过程</h5><p>1.创建log文件</p>
+<p>2.读取<code>.synopsys_dc.setup</code>文件</p>
+<p>3.Batch Mode下执行脚本文件</p>
+<p>4.展示DC应用的信息</p>
+<h5 id="重定向标准输入输出"><a href="#重定向标准输入输出" class="headerlink" title="重定向标准输入输出"></a>重定向标准输入输出</h5><p>重定向命令可以分成三个命令：</p>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tcl"><span class="hljs-keyword">puts</span> <span class="hljs-string">&quot;hello world&quot;</span> &gt; <span class="hljs-keyword">file</span>.log	# 输出到<span class="hljs-keyword">file</span>.log中，且会覆盖文件之前的内容<br><span class="hljs-keyword">puts</span> <span class="hljs-string">&quot;hello world&quot;</span> &gt;&gt; <span class="hljs-keyword">file</span>.log	# 在文件末尾增加<span class="hljs-keyword">file</span>.log内容，不会覆盖文件之前的内容<br><br>redirect <span class="hljs-keyword">file</span>.log &#123;plus <span class="hljs-number">12</span> <span class="hljs-number">13</span>&#125;  # 将<span class="hljs-number">12</span>+<span class="hljs-number">13</span>的结果输出到<span class="hljs-keyword">file</span>.log中。<br></code></pre></td></tr></table></figure>
+
+<h3 id="The-Synthesis-Flow"><a href="#The-Synthesis-Flow" class="headerlink" title="The Synthesis Flow"></a>The Synthesis Flow</h3><p><img src="/2021/10/20/DC_summary/image-20211022111016582.png" srcset="/img/loading.gif" lazyload alt="Synthesis Flow"></p>
+<h3 id="Using-Multicore-Technology"><a href="#Using-Multicore-Technology" class="headerlink" title="Using Multicore Technology"></a>Using Multicore Technology</h3><p>DC 支持使用多核技术完成程序运行任务，每个license支持 8 cores, 可以使用命令设置多核功能</p>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tcl">set_host_optiops -max_cores <span class="hljs-number">8</span>  # 设置最大运行核数为<span class="hljs-number">8</span>个，增加并行执行任务数，减少运行时间<br></code></pre></td></tr></table></figure>
+
+<h4 id="通过多核技术提高运行时间"><a href="#通过多核技术提高运行时间" class="headerlink" title="通过多核技术提高运行时间"></a>通过多核技术提高运行时间</h4><p>report 或者 check命令会增加脚本运行时间，为了减少运行时间，可以并行多核执行命令</p>
+<p>1.在DCG mode下，可以使用命令<code>redirect -bg</code>指定后台运行的命令以及执行命令的cores。但是后台最多只能指定两个后台运行的任务，只有后台活跃任务少于两个，剩余的任务才能运行.支持 <code>report</code> <code>analysis</code>等命令<br>2.在<code>redirect -bg</code>命令使用时，需要关闭<code>set_svf</code>命令，等<code>redirect -bg</code>使用完成之后，才能继续使用。</p>
+<p><code>parallel_execute</code>用来并行执行命令，如果默认没有<code>update_timing</code>,则<code>parallel_execute</code>会自动执行<code>update_timing</code></p>
+<h3 id="在综合中划分模块"><a href="#在综合中划分模块" class="headerlink" title="在综合中划分模块"></a>在综合中划分模块</h3><p>综合中，模块划分可以减少综合时间，但是查的划分会增加block的尺寸，增加优化时间。</p>
+<h4 id="考虑设计重用划分"><a href="#考虑设计重用划分" class="headerlink" title="考虑设计重用划分"></a>考虑设计重用划分</h4><p>设计重用可以减少设计时间，根据设计重用的目的进行划分可以利用实例化设计减少设计时间</p>
+<h5 id="保存组合逻辑设计完整性"><a href="#保存组合逻辑设计完整性" class="headerlink" title="保存组合逻辑设计完整性"></a>保存组合逻辑设计完整性</h5><p>1.将相关的组合逻辑和它的目标寄存器组合在一起<br>2.消除glue logic(胶连逻辑), “Do not add glue-logic at the top level”的意思就是说在设计的顶层连接各个子模块的时候要直接相连，而不要插入一些简单逻辑来连接各个子模块。</p>
+<h4 id="以寄存器作为输出"><a href="#以寄存器作为输出" class="headerlink" title="以寄存器作为输出"></a>以寄存器作为输出</h4><p>为了简化约束定义，将寄存器作为全部模块的输出。对约束编写有两个好处：<br>1.一个独立模块的输入驱动能力总是和平均的输入驱动能力相等<br>2.前一个模块的输入延时，总是和Flip-Flop路径延时相等，这样的话不需要考虑只有组合逻辑的路径，也就能够更好的进行时序预算</p>
+<h4 id="根据设计目的划分"><a href="#根据设计目的划分" class="headerlink" title="根据设计目的划分"></a>根据设计目的划分</h4><p>设计如果为了更好的面积优化以及 <code>timing critical</code> ,则可以根据设计目的进行划分，这样就可以对特定的模块采用针对性的约束指定优化策略</p>
+<h4 id="根据编译技术进行划分"><a href="#根据编译技术进行划分" class="headerlink" title="根据编译技术进行划分"></a>根据编译技术进行划分</h4><p>当设计中出现高度结构化的设计和随机设计时，可以对不同的模块采用不同的编译策略<br>1.高度结构化电路设计：例如，错误检测电路，这种电路包含大量的OR tree ,更加适合结构化编译<br>2.random design : 在flatten design 中出现的设计策略</p>
+<h4 id="保证共享资源的一致性"><a href="#保证共享资源的一致性" class="headerlink" title="保证共享资源的一致性"></a>保证共享资源的一致性</h4><p>资源共享只会出现在verilog中的always 语句块，DC 可以使用资源共享获取更好的设计质量，如下图所示：</p>
+<img src="/2021/10/20/DC_summary/image-20211023150756692.png" srcset="/img/loading.gif" lazyload alt="设计资源共享" style="zoom: 67%;">
+
+<h4 id="保证用户定义资源和驱动逻辑的完整性"><a href="#保证用户定义资源和驱动逻辑的完整性" class="headerlink" title="保证用户定义资源和驱动逻辑的完整性"></a>保证用户定义资源和驱动逻辑的完整性</h4><p>user-defined resource是用户自定义的函数，程序或者是Macro cell,DC不会自动创建这些资源的实例化设计，当一个user-defined resource 实例化无法满足设计要求时，可以手动增加实例化设计的数目，来完成设计要求。</p>
+<img src="/2021/10/20/DC_summary/image-20211023152026364.png" srcset="/img/loading.gif" lazyload alt="image-20211023152026364" style="zoom:80%;">
+
+<h4 id="隔绝特定功能"><a href="#隔绝特定功能" class="headerlink" title="隔绝特定功能"></a>隔绝特定功能</h4><p>可以通过功能在Top-level进行模块划分，例如隔离异步设计模块可以缩小STA问题分析的范围以及确定可测试性设计范围。</p>
+<img src="/2021/10/20/DC_summary/image-20211023152521250.png" srcset="/img/loading.gif" lazyload alt="隔绝特定功能" style="zoom:80%;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/DC%E7%BB%BC%E5%90%88%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">DC综合工具使用</a>
+                    
+                      <a class="hover-with-bg" href="/tags/TCL%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/">TCL脚本语言</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/21/DC-MMMC/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DC_MMMC</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/20/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
 
 
 
 
 
-  </div>
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
 </body>
 </html>
