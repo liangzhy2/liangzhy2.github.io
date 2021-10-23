@@ -4,11 +4,32 @@
   
   
   <entry>
+    <title>Setup With Library</title>
+    <link href="/2021/10/23/Setup-With-Library/"/>
+    <url>/2021/10/23/Setup-With-Library/</url>
+    
+    <content type="html"><![CDATA[<h3 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h3><p>在DC 优化过程被用来映射的<code>logic library</code>被称作<code>target library</code>,<code>target library</code>包含生成netlist的cells 以及操作环境(PVT)的定义。</p><p>target library 是link library的子集，而Link library 被用作计算时序和路径延时，常被用在DC 中的compiler和translate</p><p>在DC Ultra中，用户可以自己创建伪库，<em>ALIB</em>，用来将设计中的布尔等式映射成gate cell</p><h3 id="库文件要求"><a href="#库文件要求" class="headerlink" title="库文件要求"></a>库文件要求</h3><p><strong>target library</strong><br>包含cell的功能与特征，也可能存在必须满足的要求，DRC、PVT</p><p>常用库的模型</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">NLDM: nonlinear delay models-非线性延时模型<br>CCS: Composite Current Source-符合电流源<br></code></pre></td></tr></table></figure><h5 id="使用Logic-library的场景"><a href="#使用Logic-library的场景" class="headerlink" title="使用Logic library的场景"></a>使用Logic library的场景</h5><p><strong>实现设计功能</strong>——<code>target library</code><br><strong>解析cell reference</strong>——<code>Link library</code><br><strong>计算时序和路径延时</strong>——<code>Link library</code><br><strong>计算功耗</strong>——<code>Power Compiler</code></p><p>在link library中找到的第一个库文件会被认为是<code>main library</code>，而这个库中的物理信息，PVT等会被用于设计，以及时序和路径延时计算</p><p>Target Library被用于Mapping 设计功能，并找出对应的gate cell,因此在指定<code>target library</code>中的内容时，library应该是在DC Mapping 阶段使用到了standard cell library,对于其他种类的library并应该被应用在<code>target library</code>中。</p><p>Link library 实在compile阶段，将设计实例化成库单元，这个过程可以称作<code>link library</code>或者<code>resolving design</code></p><h5 id="在DC综合过程中相关变量如下；"><a href="#在DC综合过程中相关变量如下；" class="headerlink" title="在DC综合过程中相关变量如下；"></a>在DC综合过程中相关变量如下；</h5><p><strong><code>link_library</code></strong></p><p><code>local_link_library</code>,这个变量会被添加在<code>link_library</code>中的library文件，DC会首先在这些文件路径resolve design</p><h4 id="DesignWare-Library"><a href="#DesignWare-Library" class="headerlink" title="DesignWare Library"></a>DesignWare Library</h4><p>这个库是一个可重用电路设计模块，被集成在Synopsys综合环境中，可以用来对算术运算符，if,case等语法进行转换，获得最好的速度和面积优化。</p><p>可以通过指定变量<code>synthetci_libraray</code>,指定使用用户自定义的<strong>DesignWare Library</strong></p><p>此外，DC会自动连接软件中默认的DesignWare Library，一般用户可以不设置该变量</p><h4 id="Physical-Library-Milkyway"><a href="#Physical-Library-Milkyway" class="headerlink" title="Physical Library-Milkyway"></a>Physical Library-Milkyway</h4><p>在DC topographical 模式下，需要指定physical library,在综合阶段使用的是Milkyway design library</p><p>输入需要创建Milkyway library: Milkyway referece library, Synopsys technology library</p><p>其中MikywayReference Library 主要用在物理实现的standard cell 和 Macro的信息。</p><p>Synopsys technology library : 主要是设计的布线信息</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>setup</tag>
+      
+      <tag>library</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>HDL_Coding_Synthesis</title>
     <link href="/2021/10/23/HDL-Coding-Synthesis/"/>
     <url>/2021/10/23/HDL-Coding-Synthesis/</url>
     
-    <content type="html"><![CDATA[<p>HDL 是综合的基础功能，如果一个HDL设计质量很高，则可以提高优化的质量。下面介绍如何写出更加高质量的HDL Design</p><h3 id="1-写工艺独立的HDL"><a href="#1-写工艺独立的HDL" class="headerlink" title="1.写工艺独立的HDL"></a>1.写工艺独立的HDL</h3><p>高质量的设计是在完全自动的综合过程中获得没有实例化的 gate cell 和 flip-flop.<br>首先是工具推断设计器件:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">1. 推断MUX<br>2. 推断寄存器<br>3. 没有控制信号的寄存器<br>4. 有控制信号的寄存器<br>5. 三态门器件<br>6. 多比特器件<br></code></pre></td></tr></table></figure><h3 id="2-使用-HDL-结构体"><a href="#2-使用-HDL-结构体" class="headerlink" title="2.使用 HDL 结构体"></a>2.使用 HDL 结构体</h3><h3 id="3-编写高效代码"><a href="#3-编写高效代码" class="headerlink" title="3.编写高效代码"></a>3.编写高效代码</h3>]]></content>
+    <content type="html"><![CDATA[<p>HDL 是综合的基础，如果一个HDL设计质量很高，则可以提高优化的质量。下面介绍如何写出更加高质量的HDL Design</p><h3 id="1-写工艺独立的HDL"><a href="#1-写工艺独立的HDL" class="headerlink" title="1.写工艺独立的HDL"></a>1.写工艺独立的HDL</h3><p>高质量的设计是在完全自动的综合过程中获得没有实例化的 gate cell 和 flip-flop.<br>首先是工具推断设计器件:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">1. 推断MUX<br>2. 推断寄存器<br>3. 没有控制信号的寄存器<br>4. 有控制信号的寄存器<br>5. 三态门器件<br>6. 多比特器件<br></code></pre></td></tr></table></figure><h3 id="2-使用-HDL-结构体"><a href="#2-使用-HDL-结构体" class="headerlink" title="2.使用 HDL 结构体"></a>2.使用 HDL 结构体</h3><h3 id="3-编写高效代码"><a href="#3-编写高效代码" class="headerlink" title="3.编写高效代码"></a>3.编写高效代码</h3>]]></content>
     
     
     
@@ -35,9 +56,9 @@
     
     <tags>
       
-      <tag>innovus</tag>
-      
       <tag>setup</tag>
+      
+      <tag>innovus</tag>
       
       <tag>commandlline</tag>
       
@@ -96,7 +117,7 @@
     <link href="/2021/10/20/hello-world/"/>
     <url>/2021/10/20/hello-world/</url>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p><p><img src="/2021/10/20/hello-world/image-20211020164734203.png" alt="image-20211020164734203"></p>]]></content>
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p><p><img src="/2021/10/20/hello-world/image-20211020164734203.png" alt="image-20211020164734203"></p>]]></content>
     
     
     
