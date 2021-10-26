@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>DC基础知识五:Milkyway</title>
+      <link href="/2021/10/25/DC%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%BA%94-Milkyway/"/>
+      <url>/2021/10/25/DC%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%BA%94-Milkyway/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Milkyway-储存两种数据-设计数据和物理库数据"><a href="#Milkyway-储存两种数据-设计数据和物理库数据" class="headerlink" title="Milkyway 储存两种数据:设计数据和物理库数据"></a>Milkyway 储存两种数据:设计数据和物理库数据</h3><p>Milkyway design library: 用来保存 netlist 和 约束文件</p><p>Milkyway reference library：用来保存物理信息，标准单元库，mcro,pad等cell 信息</p><h3 id="使用Milkyway-的文件要求"><a href="#使用Milkyway-的文件要求" class="headerlink" title="使用Milkyway 的文件要求"></a>使用Milkyway 的文件要求</h3><p>logic library和 Milkyway library</p><p><img src="/2021/10/25/DC%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E4%BA%94-Milkyway/image-20211026150353027.png" alt="image-20211026150353027"></p><h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>1.保证cell 在milkyway 和timing libray 的关联，否则只有milkyway的定义会出现错误<br>2.在运行write_milkyway命令之前运行uniquify<br>3.保证timing library和milkyway file的一致性，否则如果电气单位不同，则会对设计造成影响<br>4.DC大小写敏感</p><h3 id="脚本中使用Milkyway"><a href="#脚本中使用Milkyway" class="headerlink" title="脚本中使用Milkyway"></a>脚本中使用Milkyway</h3><h5 id="创建milkyway"><a href="#创建milkyway" class="headerlink" title="创建milkyway"></a>创建milkyway</h5><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs tcl">create_mw_lib -technology <span class="hljs-variable">$mw_tech_file</span> \<br>-mw_reference_library <span class="hljs-variable">$mw_reference_library</span> <span class="hljs-variable">$mw_design_library_name</span><br></code></pre></td></tr></table></figure><h5 id="打开milkyway"><a href="#打开milkyway" class="headerlink" title="打开milkyway"></a>打开milkyway</h5><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tcl">open_mw_lib <span class="hljs-variable">$mw_design_library_name</span><br></code></pre></td></tr></table></figure><h5 id="使用RC-参数，TLU-files"><a href="#使用RC-参数，TLU-files" class="headerlink" title="使用RC 参数，TLU+ files"></a>使用RC 参数，TLU+ files</h5><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs tcl">set_tlu_plus_files -max_tluplus <span class="hljs-variable">$max_tlu_file</span> \<br>-min_tluplus <span class="hljs-variable">$min_tlu_file</span> -tech2itf_map <span class="hljs-variable">$prs_map_file</span><br></code></pre></td></tr></table></figure><h3 id="保存Milkyway"><a href="#保存Milkyway" class="headerlink" title="保存Milkyway"></a>保存Milkyway</h3><h5 id="定义保存文件的路径"><a href="#定义保存文件的路径" class="headerlink" title="定义保存文件的路径"></a>定义保存文件的路径</h5><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tcl">set_app_var mw_design_library testmw # 指定保存milkyway文件的路径为testmw<br></code></pre></td></tr></table></figure><h5 id="定义设计文件name"><a href="#定义设计文件name" class="headerlink" title="定义设计文件name"></a>定义设计文件name</h5><figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tcl">write_milkyway -output TOP  -overwrite # 定义设计文件name TOP<br></code></pre></td></tr></table></figure><h5 id="write-milkyway命令注意点"><a href="#write-milkyway命令注意点" class="headerlink" title="write_milkyway命令注意点"></a>write_milkyway命令注意点</h5><p>1.命令和<code>create_mw_lib</code> 配套使用</p><p>2.如果之前已经保存milkyway 文件，则实在原有文件的基础上增加新的设计文件，修改版本参数，也可以使用<code>-overwrite</code> 进行内容覆盖。</p><p>3.命令不会修改内存中的内容</p><p>4.命令会保存设计的层次结构</p><h3 id="Milkyway的限制"><a href="#Milkyway的限制" class="headerlink" title="Milkyway的限制"></a>Milkyway的限制</h3><p>1.设计必须是mapped</p><p>2.设计不包好多实例化设计</p><p>3.整体保存设计，不能只保存部分设计</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Design Compiler </tag>
+            
+            <tag> Milkyway </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Setup With Library</title>
       <link href="/2021/10/23/Setup-With-Library/"/>
       <url>/2021/10/23/Setup-With-Library/</url>
